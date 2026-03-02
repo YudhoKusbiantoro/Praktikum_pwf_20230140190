@@ -1,0 +1,1 @@
+![Menampilkan Nama dan Nim](ss/1.1.png)
