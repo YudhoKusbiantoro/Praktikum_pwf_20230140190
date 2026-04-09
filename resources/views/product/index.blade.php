@@ -15,10 +15,18 @@
                             </p>
                         </div>
 
-                        <a href="{{ route('product.create') }}"
-                           class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition duration-150 shadow-sm">
-                            Add Product
-                        </a>
+                        <div class="flex gap-2">
+                            @can('export-product')
+                                <a href="{{ route('product.export') }}"
+                                   class="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition duration-150 shadow-sm">
+                                    Export
+                                </a>
+                            @endcan
+                            <a href="{{ route('product.create') }}"
+                               class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition duration-150 shadow-sm">
+                                Add Product
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Flash Message -->
@@ -83,12 +91,15 @@
                                                 </a>
 
                                                 <!-- Edit -->
+                                                @can('update', $product)
                                                 <a href="{{ route('product.edit', $product) }}"
                                                    class="p-1.5 rounded-md text-gray-400 hover:text-amber-600 transition">
                                                     Edit
                                                 </a>
+                                                @endcan
 
                                                 <!-- Delete -->
+                                                @can('delete', $product)
                                                 <form action="{{ route('product.delete', $product->id) }}" method="POST"
                                                       onsubmit="return confirm('Delete this product?')">
                                                     @csrf
@@ -99,6 +110,7 @@
                                                         Delete
                                                     </button>
                                                 </form>
+                                                @endcan
 
                                             </div>
                                         </td>
