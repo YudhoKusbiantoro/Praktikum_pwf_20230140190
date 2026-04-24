@@ -44,6 +44,13 @@
                     @csrf
                     @method('PUT')
 
+                    <!-- Flash Message -->
+                    @if (session('error'))
+                        <div class="px-4 py-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-300 rounded-lg text-sm mb-4">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     <!-- Name -->
                     <div>
                         <label for="name"
