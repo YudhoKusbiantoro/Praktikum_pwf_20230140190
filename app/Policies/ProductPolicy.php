@@ -29,26 +29,23 @@ class ProductPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->role === 'admin';
     }
 
     /**
      * Determine whether the user can update the model.
      */
-
-    // Hanya pemilik produk yang bisa melakukan update
     public function update(User $user, Product $product): bool
     {
-        return $user->id === $product->user_id;
+        return $user->role === 'admin' && $user->id === $product->user_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    // Pemilik produk bisa menghapus produknya, role 'admin' bisa menghapus semua produk
     public function delete(User $user, Product $product): bool
     {
-        return $user->id === $product->user_id || $user->role === 'admin';
+        return $user->role === 'admin' && $user->id === $product->user_id;
     }
 
     /**

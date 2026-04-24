@@ -18,12 +18,15 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        Gate::authorize('create', Product::class);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'quantity' => 'required|integer',
             'price' => 'required|numeric',
-            'user_id' => 'required|exists:users,id',
         ]);
+
+        $validated['user_id'] = auth()->id();
 
         $product = Product::create($validated);
 
@@ -32,9 +35,9 @@ class ProductController extends Controller
 
     public function create()
     {
-        $users = User::orderBy('name')->get();
+        Gate::authorize('create', Product::class);
 
-        return view('product.create', compact('users'));
+        return view('product.create');
     }
 
     public function show($id)
@@ -53,7 +56,6 @@ class ProductController extends Controller
             'name' => 'sometimes|string|max:255',
             'quantity' => 'sometimes|integer',
             'price' => 'sometimes|numeric',
-            'user_id' => 'sometimes|exists:users,id',
         ]);
 
         $product->update($validated);
@@ -64,9 +66,8 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         Gate::authorize('update', $product);
-        $users = User::orderBy('name')->get();
 
-        return view('product.edit', compact('product', 'users'));
+        return view('product.update', compact('product'));
     }
 
     public function delete($id)
