@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use App\Http\Requests\StoreProductRequest;
@@ -56,7 +57,14 @@ class ProductController extends Controller
     {
         Gate::authorize('create', Product::class);
 
-        return view('product.create');
+        // UCP 1 Penjelasan Detail:
+        // 1. Category::all() : Memerintahkan model Category untuk melakukan eksekusi perintah SQL "SELECT * FROM categories". Ini akan mengambil seluruh baris data dari tabel kategori di database tanpa filter.
+        // 2. $categories =   : Hasil tarikan data dari database tersebut kemudian ditampung dalam bentuk Collection (kumpulan objek) ke dalam variabel $categories.
+        $categories = Category::all();
+        
+        // UCP 1 Penjelasan Detail:
+        // 1. compact('categories'): Menyertakan variabel $categories agar dikirim ke halaman view. Hal ini sangat penting agar form produk yang ditampilkan bisa melakukan perulangan (@foreach) data kategori untuk diletakkan di dalam tag <select> (dropdown form).
+        return view('product.create', compact('categories'));
     }
 
     public function show($id)
