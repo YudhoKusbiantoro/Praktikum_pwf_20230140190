@@ -1,0 +1,1 @@
+![alt text](ss/7.detail.png)

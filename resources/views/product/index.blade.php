@@ -23,10 +23,7 @@
                                 </a>
                             @endcan
                             @can('create', \App\Models\Product::class)
-                            <a href="{{ route('product.create') }}"
-                               class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition duration-150 shadow-sm">
-                                Add Product
-                            </a>
+                                <x-add-product :url="route('product.create')" :name="'Product'" />
                             @endcan
                         </div>
                     </div>
