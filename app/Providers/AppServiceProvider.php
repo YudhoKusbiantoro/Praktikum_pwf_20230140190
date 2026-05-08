@@ -6,6 +6,9 @@ use Illuminate\Support\ServiceProvider;
 
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
+use Illuminate\Support\Str;
+use Dedoc\Scramble\Scramble;
+use Illuminate\Routing\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,6 +37,15 @@ class AppServiceProvider extends ServiceProvider
             // 1. $user->role === 'admin' : Kode ini mengevaluasi (mengecek) apakah nilai yang ada di kolom 'role' milik user yang login tersebut bernilai sama persis dengan teks 'admin'.
             // 2. return ... : Jika evaluasinya Benar (True), sistem memberi lampu hijau (izin akses rute/tampilan). Jika Salah (False), akses digagalkan.
             return $user->role === 'admin'; 
+        });
+
+        Scramble::configure()
+            ->routes(function (Route $route) {
+                return Str::startsWith($route->uri, 'api/');
+            });
+
+        Gate::define('viewApiDocs', function () {
+            return true;
         });
     }
 }
